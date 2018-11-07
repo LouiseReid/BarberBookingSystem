@@ -2,13 +2,12 @@ import React from 'react';
 import TimeSlot from './TimeSlot';
 import moment from 'moment'
 
-class Schedule extends React.Component{
+const Schedule = (props) => {
 
-  render(){
     const timeSlots = [
       {time:['09:00','09:30'], booking: null},
       {time:['09:30', '10:00'], booking: null},
-      {time:['10:00', '10:30'], booking:null},
+      {time:['10:00', '10:30'], booking: null},
       {time:['10:30', '11:00'], booking: null},
       {time:['11:00', '11:30'], booking: null},
       {time:['11:30', '12:00'], booking: null},
@@ -17,9 +16,10 @@ class Schedule extends React.Component{
       {time:['13:00', '13:30'], booking: null}
     ]
 
+
     const format = 'hh:mm'
 
-    this.props.bookings.forEach((booking, index) => {
+    props.bookings.forEach((booking, index) => {
       let startTime = moment(booking.startTime)
       let endTime = moment(moment(booking.endTime).format('hh:mm'))
       timeSlots.forEach((timeSlot, index) => {
@@ -35,13 +35,22 @@ class Schedule extends React.Component{
       })
     })
 
+    const available = timeSlots.filter(timeSlot => timeSlot.booking == null)
+
+    const availableForBarber = {
+      available: available,
+      barber: props.barber
+    }
+
+    props.getAvailable(availableForBarber)
+
     const slots = timeSlots.map((slot, index) => {
       return <TimeSlot key={index} slot={slot} />
     })
 
     return(
       <div className="">
-        <h3>{this.props.barber}</h3>
+        <h3>{props.barber}</h3>
         <table>
           <tbody>
             <tr>
@@ -54,7 +63,7 @@ class Schedule extends React.Component{
         </table>
       </div>
     )
-  }
+
 }
 
 export default Schedule;
