@@ -12,11 +12,9 @@ const SelectForm = (props) => {
 
   return (
     <form>
-      <fieldset className="fields">
         <select onChange={handleChange}>
           {options}
         </select>
-      </fieldset>
     </form>
   )
 }

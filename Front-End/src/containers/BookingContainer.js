@@ -1,8 +1,11 @@
 import React from 'react';
 import Request from '../helpers/request';
 import Schedule from '../components/Schedule';
-import SelectForm from '../components/SelectForm'
-import BookingForm from '../components/BookingForm'
+import SelectForm from '../components/SelectForm';
+import BookingForm from '../components/BookingForm';
+import Calendar from 'react-calendar';
+import moment from 'moment';
+import _ from 'lodash'
 
 class BookingContainer extends React.Component{
   constructor(props){
@@ -12,7 +15,26 @@ class BookingContainer extends React.Component{
       services: [],
       customers: [],
       barbers: [],
-      currentBarber: 'Gemma'
+      timeSlots: [
+        {time:['09:00','09:30'], booking: null},
+        {time:['09:30', '10:00'], booking: null},
+        {time:['10:00', '10:30'], booking: null},
+        {time:['10:30', '11:00'], booking: null},
+        {time:['11:00', '11:30'], booking: null},
+        {time:['11:30', '12:00'], booking: null},
+        {time:['12:00', '12:30'], booking: null},
+        {time:['12:30', '13:00'], booking: null},
+        {time:['13:00', '13:30'], booking: null},
+        {time:['13:30', '14:00'], booking: null},
+        {time:['14:00', '14:30'], booking: null},
+        {time:['14:30', '15:00'], booking: null},
+        {time:['15:00', '15:30'], booking: null},
+        {time:['15:30', '16:00'], booking: null},
+        {time:['16:00', '16:30'], booking: null},
+        {time:['16:30', '17:00'], booking: null},
+      ],
+      currentBarber: 'Gemma',
+      date: new Date()
     }
   }
 
@@ -49,27 +71,58 @@ class BookingContainer extends React.Component{
     })
   }
 
-  handleAvailableSlots = slots => {
+  dateSelect = date => {
+    const formattedDate = moment(date).format('YYYY-MM-DD')
+    this.setState({date: formattedDate})
+  };
+
+  searchAvailableSlots = (barber, date) => {
+    const barbersBookings = this.state.barbers.find(barb => barb.name === barber)
+    const unavailableTimes = barbersBookings.bookings.map((booking) => {
+      if(booking.startTime.includes(moment(date).format('DD-MM-YY'))){
+        return booking.startTime
+      }
+    })
+    this.filterUnavailableTimes(unavailableTimes)
+  }
+
+  filterUnavailableTimes = slots => {
+    this.state.timeSlots.forEach((slot, index)=>{
+      slots.forEach(unavailable =>{
+        if(unavailable.includes(slot.time[0])){
+          console.log(slot);
+        }
+      })
+      // console.log(slots);
+      // console.log(slot.time[0]);
+      // console.log(slots.includes(slot.time[0]))
+      // if(slots.includes(slot.time[0])){
+      //   // console.log(slot);
+      // }
+    })
 
   }
 
 
   render(){
-    const bookingsForDate = this.state.bookings.filter(booking => booking.startTime.includes(this.props.selectedDate) && booking.barber.name === this.state.currentBarber)
+    const bookingsForDate = this.state.bookings.filter(booking => booking.startTime.includes(this.state.date) && booking.barber.name === this.state.currentBarber)
 
 
     return(
       <React.Fragment>
+        <Calendar onChange={this.dateSelect}/>
         <SelectForm barbers={this.state.barbers} onChange={this.handleSelectChange}/>
         <Schedule
           bookings={bookingsForDate}
           barber={this.state.currentBarber}
-          getAvailable={this.handleAvailableSlots}
+          timeSlots={this.state.timeSlots}
          />
         <BookingForm
           barbers = {this.state.barbers}
           services = {this.state.services}
           customers = {this.state.services}
+          timeSlots = {this.state.timeSlots}
+          handleSearch = {this.searchAvailableSlots}
           handleBookingPost= {this.handleBookingPost} />
         </React.Fragment>
       )
