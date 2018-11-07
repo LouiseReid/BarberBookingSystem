@@ -34,7 +34,8 @@ class BookingContainer extends React.Component{
         {time:['16:30', '17:00'], booking: null},
       ],
       currentBarber: 'Gemma',
-      date: new Date()
+      date: new Date(),
+      availableSlots: []
     }
   }
 
@@ -90,17 +91,11 @@ class BookingContainer extends React.Component{
     this.state.timeSlots.forEach((slot, index)=>{
       slots.forEach(unavailable =>{
         if(unavailable.includes(slot.time[0])){
-          console.log(slot);
+          const filtered = this.state.timeSlots.filter(time => time.time !== slot.time)
+          this.setState({availableSlots: filtered})
         }
       })
-      // console.log(slots);
-      // console.log(slot.time[0]);
-      // console.log(slots.includes(slot.time[0]))
-      // if(slots.includes(slot.time[0])){
-      //   // console.log(slot);
-      // }
     })
-
   }
 
 
