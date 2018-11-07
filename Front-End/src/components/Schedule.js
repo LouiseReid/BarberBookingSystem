@@ -5,7 +5,6 @@ import moment from 'moment'
 class Schedule extends React.Component{
 
   render(){
-
     const timeSlots = [
       {time:['09:00','09:30'], booking: null},
       {time:['09:30', '10:00'], booking: null},
@@ -18,15 +17,23 @@ class Schedule extends React.Component{
       {time:['13:00', '13:30'], booking: null}
     ]
 
+    const format = 'hh:mm'
+
     this.props.bookings.forEach((booking, index) => {
-      timeSlots.forEach((timeSlot) => {
-        if(booking.startTime.includes(moment(timeSlot.time[0], 'HH:mm').format('HH:mm'))){
+      let startTime = moment(booking.startTime)
+      let endTime = moment(moment(booking.endTime).format('hh:mm'))
+      timeSlots.forEach((timeSlot, index) => {
+        let slotStart = moment(timeSlot.time[0], format)
+        let slotEnd = moment(timeSlot.time[1], format)
+        if(startTime._i.includes(slotStart._i)){
           timeSlot.booking = booking
+          if(endTime._i > slotEnd._i){
+            timeSlots[index +1].booking = booking
+            timeSlots[index +1].time[1] = endTime._i
+          }
         }
       })
     })
-
-
 
     const slots = timeSlots.map((slot, index) => {
       return <TimeSlot key={index} slot={slot} />

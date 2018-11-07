@@ -52,11 +52,12 @@ class BookingContainer extends React.Component{
 
   render(){
     const bookingsForDate = this.state.bookings.filter(booking => booking.startTime.includes(this.props.selectedDate) && booking.barber.name === this.state.currentBarber)
+  
 
     return(
       <React.Fragment>
         <SelectForm barbers={this.state.barbers} onChange={this.handleSelectChange}/>
-        <Schedule bookings={bookingsForDate} barber={this.state.barber} />
+        <Schedule bookings={bookingsForDate} barber={this.state.currentBarber} />
         <BookingForm
           barbers = {this.state.barbers}
           services = {this.state.services}

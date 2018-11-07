@@ -78,9 +78,9 @@ public class DataLoader implements ApplicationRunner {
         customerRepository.save(customer2);
 
 
-        LocalDateTime startTime = LocalDateTime.of(2018, Month.NOVEMBER, 5, 12, 30);
+        LocalDateTime startTime = LocalDateTime.of(2018, Month.NOVEMBER, 5, 12, 00);
 
-        Booking booking1 = new Booking(customer1, gemma, startTime, beardTrim);
+        Booking booking1 = new Booking(customer1, gemma, startTime, cutAndStyleAndBT);
         bookingRepository.save(booking1);
 
         gemma.addBooking(booking1);
@@ -89,8 +89,8 @@ public class DataLoader implements ApplicationRunner {
         customer1.addBooking(booking1);
         customerRepository.save(customer1);
 
-        beardTrim.addBooking(booking1);
-        serviceRepository.save(beardTrim);
+        cutAndStyleAndBT.addBooking(booking1);
+        serviceRepository.save(cutAndStyleAndBT);
 
         LocalDateTime startTime2 = LocalDateTime.of(2018, Month.NOVEMBER, 6, 10, 30);
 
