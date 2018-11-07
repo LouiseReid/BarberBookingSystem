@@ -14,6 +14,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.awt.print.Book;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
@@ -49,6 +50,18 @@ public class DataLoader implements ApplicationRunner {
         Service fade = new Service("Fade", 15.00, 20);
         serviceRepository.save(fade);
 
+        Service cutAndStyle = new Service("Cut & Style", 20.00, 30);
+        serviceRepository.save(cutAndStyle);
+
+        Service cutAndStyleAndBT = new Service("Cut & Style with Beard Trim", 23.00, 40 );
+        serviceRepository.save(cutAndStyleAndBT);
+
+        Service crewBuzzSkinHead = new Service("Crew/Buzz/Skinhead", 15.00, 15 );
+        serviceRepository.save(crewBuzzSkinHead);
+
+        Service afro = new Service("Afro Shape Up & Cut", 20.00, 30);
+        serviceRepository.save(afro);
+
         Barber gemma = new Barber("Gemma");
         barberRepository.save(gemma);
 
@@ -79,6 +92,16 @@ public class DataLoader implements ApplicationRunner {
         beardTrim.addBooking(booking1);
         serviceRepository.save(beardTrim);
 
+        LocalDateTime startTime2 = LocalDateTime.of(2018, Month.NOVEMBER, 6, 10, 30);
+
+        Booking booking2 = new Booking(customer2, alan, startTime2, fade);
+        bookingRepository.save(booking2);
+
+        alan.addBooking(booking2);
+        barberRepository.save(alan);
+
+        fade.addBooking(booking2);
+        serviceRepository.save(fade);
 
     }
 }

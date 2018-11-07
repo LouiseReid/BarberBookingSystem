@@ -7,7 +7,7 @@ class SelectForm extends React.Component {
   }
 
   handleChange(evt){
-    this.props.onSelectChange(evt.target.value)
+    this.props.onChange(evt.target.value)
   }
 
 
