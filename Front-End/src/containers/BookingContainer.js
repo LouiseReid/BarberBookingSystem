@@ -3,6 +3,7 @@ import Request from '../helpers/request';
 import Schedule from '../components/Schedule';
 import SelectForm from '../components/SelectForm';
 import BookingForm from '../components/BookingForm';
+import BarberBookingSearch from '../components/BarberBookingSearch';
 import Calendar from 'react-calendar';
 import moment from 'moment';
 
@@ -81,6 +82,9 @@ class BookingContainer extends React.Component{
   };
 
   searchAvailableSlots = (barber, date) => {
+    if(barber === null || barber.name === null){
+      return false;
+    }
     const barbersBookings = this.state.barbers.find(barb => barb.name === barber.name)
     const unavailableTimes = barbersBookings.bookings.map((booking) => {
       if(booking.startTime.includes(moment(date).format('DD-MM-YY')) || booking.endTime.includes(moment(date).format('DD-MM-YY'))){
@@ -96,22 +100,32 @@ class BookingContainer extends React.Component{
   }
 
   filterUnavailableTimes = slots => {
-    this.state.timeSlots.forEach((slot, index)=>{
-      slots.forEach(unavailable =>{
-        if(unavailable.startTime.includes(slot.time[0])){
-          const filtered = this.state.timeSlots.filter(time => time.time !== slot.time)
+    if(slots[0] === undefined || slots.length === 0){
+      this.setState(prevState => ({
+        bookingCriteria: {
+          ...prevState.bookingCriteria,
+          availableSlots: this.state.timeSlots
+        }
+      }))
+    } else {
+      console.log(slots);
+      this.state.timeSlots.forEach((slot, index)=>{
+        slots.forEach(unavailable =>{
+          if(unavailable.startTime.includes(slot.time[0])){
+            const filtered = this.state.timeSlots.filter(timeSlot => timeSlot.time !== slot.time)
             if(unavailable.endTime.slice(-5) > slot.time[1]){
               filtered.splice(index, 1)
             }
-          this.setState(prevState => ({
-            bookingCriteria: {
-              ...prevState.bookingCriteria,
-              availableSlots: filtered
-            }
-          }))
-        }
+            this.setState(prevState => ({
+              bookingCriteria: {
+                ...prevState.bookingCriteria,
+                availableSlots: filtered
+              }
+            }))
+          }
+        })
       })
-    })
+    }
   }
 
   render(){
@@ -126,17 +140,18 @@ class BookingContainer extends React.Component{
           bookings={bookingsForDate}
           barber={this.state.currentBarber}
           timeSlots={this.state.timeSlots}
-         />
-        <BookingForm
+        />
+        <BarberBookingSearch
           barbers = {this.state.barbers}
-          services = {this.state.services}
-          customers = {this.state.services}
-          timeSlots = {this.state.timeSlots}
           handleSearch = {this.searchAvailableSlots}
-          handleBookingPost= {this.handleBookingPost} />
-        </React.Fragment>
-      )
-    }
-  }
+        />
+        <BookingForm
+          bookingCriteria = {this.state.bookingCriteria}
+        />
 
-  export default BookingContainer;
+      </React.Fragment>
+    )
+  }
+}
+
+export default BookingContainer;
