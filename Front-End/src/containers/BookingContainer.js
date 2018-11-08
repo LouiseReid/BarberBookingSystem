@@ -30,7 +30,7 @@ class BookingContainer extends React.Component{
         {time:['15:00', '15:30'], booking: null},
         {time:['15:30', '16:00'], booking: null},
         {time:['16:00', '16:30'], booking: null},
-        {time:['16:30', '17:00'], booking: null},
+        {time:['16:30', '17:00'], booking: null}
       ],
       currentBarber: 'Gemma',
       date: new Date(),
@@ -83,8 +83,8 @@ class BookingContainer extends React.Component{
   searchAvailableSlots = (barber, date) => {
     const barbersBookings = this.state.barbers.find(barb => barb.name === barber.name)
     const unavailableTimes = barbersBookings.bookings.map((booking) => {
-      if(booking.startTime.includes(moment(date).format('DD-MM-YY'))){
-        return booking.startTime
+      if(booking.startTime.includes(moment(date).format('DD-MM-YY')) || booking.endTime.includes(moment(date).format('DD-MM-YY'))){
+        return booking
       }
     })
     this.setState(prevState => ({
@@ -98,8 +98,11 @@ class BookingContainer extends React.Component{
   filterUnavailableTimes = slots => {
     this.state.timeSlots.forEach((slot, index)=>{
       slots.forEach(unavailable =>{
-        if(unavailable.includes(slot.time[0])){
+        if(unavailable.startTime.includes(slot.time[0])){
           const filtered = this.state.timeSlots.filter(time => time.time !== slot.time)
+            if(unavailable.endTime.slice(-5) > slot.time[1]){
+              filtered.splice(index, 1)
+            }
           this.setState(prevState => ({
             bookingCriteria: {
               ...prevState.bookingCriteria,

@@ -22,15 +22,6 @@ const Schedule = (props) => {
       })
     })
 
-    const available = props.timeSlots.filter(timeSlot => timeSlot.booking == null)
-    //
-    // const availableForBarber = {
-    //   available: available,
-    //   barber: props.barber
-    // }
-    //
-    // props.getAvailable(availableForBarber)
-
     const slots = props.timeSlots.map((slot, index) => {
       return <TimeSlot key={index} slot={slot} />
     })
