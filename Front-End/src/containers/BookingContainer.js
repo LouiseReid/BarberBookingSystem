@@ -5,7 +5,6 @@ import SelectForm from '../components/SelectForm';
 import BookingForm from '../components/BookingForm';
 import Calendar from 'react-calendar';
 import moment from 'moment';
-import _ from 'lodash'
 
 class BookingContainer extends React.Component{
   constructor(props){
@@ -35,7 +34,11 @@ class BookingContainer extends React.Component{
       ],
       currentBarber: 'Gemma',
       date: new Date(),
-      availableSlots: []
+      bookingCriteria: {
+        availableSlots: [],
+        date: new Date(),
+        barber: null
+      }
     }
   }
 
@@ -78,12 +81,17 @@ class BookingContainer extends React.Component{
   };
 
   searchAvailableSlots = (barber, date) => {
-    const barbersBookings = this.state.barbers.find(barb => barb.name === barber)
+    const barbersBookings = this.state.barbers.find(barb => barb.name === barber.name)
     const unavailableTimes = barbersBookings.bookings.map((booking) => {
       if(booking.startTime.includes(moment(date).format('DD-MM-YY'))){
         return booking.startTime
       }
     })
+    this.setState(prevState => ({
+      bookingCriteria: {
+        ...prevState.bookingCriteria, barber, date
+      }
+    }))
     this.filterUnavailableTimes(unavailableTimes)
   }
 
@@ -92,12 +100,16 @@ class BookingContainer extends React.Component{
       slots.forEach(unavailable =>{
         if(unavailable.includes(slot.time[0])){
           const filtered = this.state.timeSlots.filter(time => time.time !== slot.time)
-          this.setState({availableSlots: filtered})
+          this.setState(prevState => ({
+            bookingCriteria: {
+              ...prevState.bookingCriteria,
+              availableSlots: filtered
+            }
+          }))
         }
       })
     })
   }
-
 
   render(){
     const bookingsForDate = this.state.bookings.filter(booking => booking.startTime.includes(this.state.date) && booking.barber.name === this.state.currentBarber)

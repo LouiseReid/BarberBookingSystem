@@ -4,15 +4,23 @@ class BookingForm extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      barber: null,
+      barber: {
+        name: null,
+        url: null
+      },
       date: new Date()
     }
   }
 
   handleBarberChange = evt => {
     const {options, selectedIndex} = evt.target;
-    this.setState({barber: options[selectedIndex].text})
+    this.setState(prevState => ({
+      barber: {
+        ...prevState.barber, name: options[selectedIndex].text, url: options[selectedIndex].value
+      }
+    }))
   }
+
 
   handleDateChange = evt => {
     this.setState({date: evt.target.value})
