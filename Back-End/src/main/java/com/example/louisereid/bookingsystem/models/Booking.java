@@ -17,17 +17,14 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "barber_id", nullable = false)
     private Barber barber;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "service_id", nullable = false)
     private Service service;

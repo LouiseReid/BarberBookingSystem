@@ -26,7 +26,7 @@ class BarberBookingSearch extends React.Component {
   }
 
   handleSubmit = evt => {
-    console.log(evt);
+    console.log(this.state.date);
     evt.preventDefault();
     this.props.handleSearch(this.state.barber, this.state.date)
     this.setState({

@@ -18,7 +18,6 @@ public class Barber {
     @Column(name = "name")
     private String name;
 
-    @JsonIgnore
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     @OneToMany(mappedBy = "barber", fetch = FetchType.LAZY)
     private List<Booking> bookings;

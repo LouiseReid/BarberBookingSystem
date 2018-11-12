@@ -35,6 +35,7 @@ class BookingContainer extends React.Component{
       ],
       currentBarber: 'Gemma',
       date: new Date(),
+      bookingsForDate: [],
       bookingCriteria: {
         availableSlots: [],
         date: new Date(),
@@ -42,6 +43,7 @@ class BookingContainer extends React.Component{
       }
     }
   }
+
 
   componentDidMount(){
     let request = new Request()
@@ -78,7 +80,7 @@ class BookingContainer extends React.Component{
 
   dateSelect = date => {
     const formattedDate = moment(date).format('YYYY-MM-DD')
-    this.setState({date: formattedDate})
+    this.setState({date: formattedDate}, this.getBookingsForDate)
   };
 
   searchAvailableSlots = (barber, date) => {
@@ -108,7 +110,6 @@ class BookingContainer extends React.Component{
         }
       }))
     } else {
-      console.log(slots);
       this.state.timeSlots.forEach((slot, index)=>{
         slots.forEach(unavailable =>{
           if(unavailable.startTime.includes(slot.time[0])){
@@ -128,16 +129,19 @@ class BookingContainer extends React.Component{
     }
   }
 
-  render(){
+  getBookingsForDate = () => {
     const bookingsForDate = this.state.bookings.filter(booking => booking.startTime.includes(this.state.date) && booking.barber.name === this.state.currentBarber)
+    this.setState({bookingsForDate})
+  }
 
+  render(){
 
     return(
       <React.Fragment>
         <Calendar onChange={this.dateSelect}/>
         <SelectForm barbers={this.state.barbers} onChange={this.handleSelectChange}/>
         <Schedule
-          bookings={bookingsForDate}
+          bookings={this.state.bookingsForDate}
           barber={this.state.currentBarber}
           timeSlots={this.state.timeSlots}
         />
@@ -147,6 +151,8 @@ class BookingContainer extends React.Component{
         />
         <BookingForm
           bookingCriteria = {this.state.bookingCriteria}
+          services = {this.state.services}
+          customers = {this.state.customers}
         />
 
       </React.Fragment>

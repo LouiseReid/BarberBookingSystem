@@ -25,7 +25,6 @@ public class Service {
     @Column(name = "duration")
     private int duration;
 
-    @JsonIgnore
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     @OneToMany(mappedBy = "service", fetch = FetchType.LAZY)
     private List<Booking> bookings;
