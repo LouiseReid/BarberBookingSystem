@@ -73,7 +73,7 @@ class BookingContainer extends React.Component{
 
   handleBookingPost = booking => {
     const request = new Request();
-    request.post('/api/bookings', booking).then(() => {
+    request.post('/api/bookings/new', booking).then(() => {
       window.location = '/'
     })
   }
@@ -91,7 +91,6 @@ class BookingContainer extends React.Component{
     console.log(barbersBookings);
     const unavailableTimes = barbersBookings.bookings.map((booking) => {
       if(booking.startTime.includes(moment(date).format('DD-MM-YY')) || booking.endTime.includes(moment(date).format('DD-MM-YY'))){
-        console.log(booking);
         return booking
       }
     })
@@ -156,6 +155,7 @@ class BookingContainer extends React.Component{
           bookingCriteria = {this.state.bookingCriteria}
           services = {this.state.services}
           customers = {this.state.customers}
+          submitBooking = {this.handleBookingPost}
         />
 
       </React.Fragment>

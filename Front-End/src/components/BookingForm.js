@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment'
 
-const BookingForm = ({bookingCriteria, services, customers}) => {
+const BookingForm = ({bookingCriteria, services, customers, submitBooking}) => {
 
    if(bookingCriteria.barber === null) return null;
 
@@ -27,7 +27,7 @@ const BookingForm = ({bookingCriteria, services, customers}) => {
        "service": evt.target.service.value,
        "customer": evt.target.customer.value
      }
-     console.log(booking);
+     submitBooking(booking)
    }
 
   return(
