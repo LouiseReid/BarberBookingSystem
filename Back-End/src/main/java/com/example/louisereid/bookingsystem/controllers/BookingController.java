@@ -1,5 +1,6 @@
 package com.example.louisereid.bookingsystem.controllers;
 
+import com.example.louisereid.bookingsystem.helpers.ObjectBuilder;
 import com.example.louisereid.bookingsystem.models.Barber;
 import com.example.louisereid.bookingsystem.models.Booking;
 import com.example.louisereid.bookingsystem.models.Customer;
@@ -39,14 +40,22 @@ public class BookingController {
     @Autowired
     ServiceRepository serviceRepository;
 
+    @Autowired
+    ObjectBuilder objectBuilder;
+
 
     @RequestMapping(value = "/new", headers = "Accept=application/json", method = RequestMethod.POST)
     public void post(@RequestBody HashMap<String, String> requestData) throws MalformedURLException {
+        String customerStr = requestData.get("customer");
+        Long customerId = objectBuilder.findId(customerStr);
+        Optional foundCustomer = customerRepository.findById(customerId);
+        Customer customer = null;
+        if(foundCustomer.isPresent()){
+            customer = (Customer)foundCustomer.get();
+        }
+
         String barberStr = requestData.get("barber");
-        Uri barberUri = new Uri(barberStr);
-        String barberPath = barberUri.getPath();
-        String barberStringId = barberPath.substring(barberPath.lastIndexOf('/') + 1);
-        Long barberId = Long.parseLong(barberStringId);
+        Long barberId = objectBuilder.findId(barberStr);
         Optional foundBarber = barberRepository.findById(barberId);
         Barber barber = null;
         if (foundBarber.isPresent()){
@@ -56,22 +65,8 @@ public class BookingController {
         String startTimeStr = requestData.get("startTime");
         LocalDateTime startTime = LocalDateTime.parse(startTimeStr);
 
-        String customerStr = requestData.get("customer");
-        Uri customerUri = new Uri(customerStr);
-        String customerPath = customerUri.getPath();
-        String customerStringId = customerPath.substring(customerPath.lastIndexOf('/') +1);
-        Long customerId = Long.parseLong(customerStringId);
-        Optional foundCustomer = customerRepository.findById(customerId);
-        Customer customer = null;
-        if(foundCustomer.isPresent()){
-            customer = (Customer)foundCustomer.get();
-        }
-
         String serviceStr = requestData.get("service");
-        Uri serviceUri = new Uri(serviceStr);
-        String servicePath = serviceUri.getPath();
-        String serviceStringId = servicePath.substring(servicePath.lastIndexOf('/') +1);
-        Long serviceId = Long.parseLong(serviceStringId);
+        Long serviceId = objectBuilder.findId(serviceStr);
         Optional foundService = serviceRepository.findById(serviceId);
         Service service = null;
         if(foundService.isPresent()){
