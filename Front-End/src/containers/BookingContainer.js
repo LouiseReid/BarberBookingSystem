@@ -16,22 +16,22 @@ class BookingContainer extends React.Component{
       customers: [],
       barbers: [],
       timeSlots: [
-        {time:['09:00','09:30'], booking: null},
-        {time:['09:30', '10:00'], booking: null},
-        {time:['10:00', '10:30'], booking: null},
-        {time:['10:30', '11:00'], booking: null},
-        {time:['11:00', '11:30'], booking: null},
-        {time:['11:30', '12:00'], booking: null},
-        {time:['12:00', '12:30'], booking: null},
-        {time:['12:30', '13:00'], booking: null},
-        {time:['13:00', '13:30'], booking: null},
-        {time:['13:30', '14:00'], booking: null},
-        {time:['14:00', '14:30'], booking: null},
-        {time:['14:30', '15:00'], booking: null},
-        {time:['15:00', '15:30'], booking: null},
-        {time:['15:30', '16:00'], booking: null},
-        {time:['16:00', '16:30'], booking: null},
-        {time:['16:30', '17:00'], booking: null}
+        {time:['09:00','09:30']},
+        {time:['09:30', '10:00']},
+        {time:['10:00', '10:30']},
+        {time:['10:30', '11:00']},
+        {time:['11:00', '11:30']},
+        {time:['11:30', '12:00']},
+        {time:['12:00', '12:30']},
+        {time:['12:30', '13:00']},
+        {time:['13:00', '13:30']},
+        {time:['13:30', '14:00']},
+        {time:['14:00', '14:30']},
+        {time:['14:30', '15:00']},
+        {time:['15:00', '15:30']},
+        {time:['15:30', '16:00']},
+        {time:['16:00', '16:30']},
+        {time:['16:30', '17:00']}
       ],
       currentBarber: 'Gemma',
       date: new Date(),
@@ -46,7 +46,7 @@ class BookingContainer extends React.Component{
 
 
   componentDidMount(){
-    let request = new Request()
+    const request = new Request()
     request.get('/api/bookings').then((data) => {
       this.setState({bookings: data._embedded.bookings})
     })
@@ -114,10 +114,11 @@ class BookingContainer extends React.Component{
       this.state.timeSlots.forEach((slot, index)=>{
         slots.forEach(unavailable =>{
           if(unavailable.startTime.includes(slot.time[0])){
-            const filtered = this.state.timeSlots.filter(timeSlot => timeSlot.time !== slot.time)
-            if(unavailable.endTime.slice(-5) > slot.time[1]){
+            var filtered = this.state.timeSlots.filter(timeSlot => timeSlot.time !== slot.time)
+            if(unavailable.endTime.slice(-8) > slot.time[1]){
               filtered.splice(index, 1)
             }
+            console.log(filtered);
             this.setState(prevState => ({
               bookingCriteria: {
                 ...prevState.bookingCriteria,
