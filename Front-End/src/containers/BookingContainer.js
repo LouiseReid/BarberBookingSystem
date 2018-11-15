@@ -88,8 +88,10 @@ class BookingContainer extends React.Component{
       return false;
     }
     const barbersBookings = this.state.barbers.find(barb => barb.name === barber.name)
+    console.log(barbersBookings);
     const unavailableTimes = barbersBookings.bookings.map((booking) => {
       if(booking.startTime.includes(moment(date).format('DD-MM-YY')) || booking.endTime.includes(moment(date).format('DD-MM-YY'))){
+        console.log(booking);
         return booking
       }
     })
@@ -102,6 +104,7 @@ class BookingContainer extends React.Component{
   }
 
   filterUnavailableTimes = slots => {
+    console.log(slots);
     if(slots[0] === undefined || slots.length === 0){
       this.setState(prevState => ({
         bookingCriteria: {

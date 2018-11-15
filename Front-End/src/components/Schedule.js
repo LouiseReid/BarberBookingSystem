@@ -34,8 +34,8 @@ const Schedule = (props) => {
         if(startTime._i.includes(slotStart._i)){
           timeSlot.booking = booking
           if(endTime._i > slotEnd._i){
-            timeSlots[index +1].booking = booking
-            timeSlots[index +1].time[1] = endTime._i
+            timeSlots[index].time[1] = endTime._i
+            timeSlots.splice(index +1, 1)
           }
         }
       })

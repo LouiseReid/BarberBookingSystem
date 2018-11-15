@@ -1,13 +1,10 @@
 package com.example.louisereid.bookingsystem.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cascade;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "bookings")
@@ -29,11 +26,11 @@ public class Booking {
     @JoinColumn(name = "service_id", nullable = false)
     private Service service;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm")
+    @JsonSerialize(using=LocalDateTimeSerializer.class)
     @Column(name = "start_time")
     private LocalDateTime startTime;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm")
+    @JsonSerialize(using=LocalDateTimeSerializer.class)
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
