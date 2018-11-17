@@ -93,7 +93,7 @@ class BookingContainer extends React.Component{
       if(booking.startTime.includes(moment(date).format('YYYY-MM-DD')) || booking.endTime.includes(moment(date).format('YYYY-MM-DD'))){
         unavailableTimes.push(booking)
       }
-  })
+    })
     this.setState(prevState => ({
       bookingCriteria: {
         ...prevState.bookingCriteria, barber, date
@@ -111,23 +111,26 @@ class BookingContainer extends React.Component{
         }
       }))
     } else {
-      this.state.timeSlots.forEach((slot, index)=>{
-        slots.forEach(unavailable =>{
+      const timesToRemove = []
+      this.state.timeSlots.forEach((slot, index) => {
+        slots.forEach((unavailable) => {
           if(unavailable.startTime.includes(slot.time[0])){
-            var filtered = this.state.timeSlots.filter(timeSlot => timeSlot.time !== slot.time)
+            timesToRemove.push(slot)
             if(unavailable.endTime.slice(-8) > slot.time[1]){
-              filtered.splice(index, 1)
+              const rolledIntoSlot = this.state.timeSlots[index +1]
+              timesToRemove.push(rolledIntoSlot)
             }
-            console.log(filtered);
-            this.setState(prevState => ({
-              bookingCriteria: {
-                ...prevState.bookingCriteria,
-                availableSlots: filtered
-              }
-            }))
           }
         })
       })
+      const availableSlots = this.state.timeSlots.filter((timeSlot) => {
+        return timesToRemove.indexOf(timeSlot) === -1
+      })
+      this.setState(prevState => ({
+        bookingCriteria: {
+          ...prevState.bookingCriteria, availableSlots
+        }
+      }))
     }
   }
 
