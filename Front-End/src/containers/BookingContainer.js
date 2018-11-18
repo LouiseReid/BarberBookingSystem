@@ -4,8 +4,10 @@ import Schedule from '../components/Schedule';
 import SelectForm from '../components/SelectForm';
 import BookingForm from '../components/BookingForm';
 import BarberBookingSearch from '../components/BarberBookingSearch';
+import DailyTimeTable from '../components/DailyTimeTable';
 import Calendar from 'react-calendar';
 import moment from 'moment';
+import './BookingContainer.css'
 
 class BookingContainer extends React.Component{
   constructor(props){
@@ -80,7 +82,7 @@ class BookingContainer extends React.Component{
 
   dateSelect = date => {
     const formattedDate = moment(date).format('YYYY-MM-DD')
-    this.setState({date: formattedDate}, this.getBookingsForDate)
+    this.setState({date: formattedDate}, this.getBookingsForDate__wBarber)
   };
 
   searchAvailableSlots = (barber, date) => {
@@ -134,34 +136,46 @@ class BookingContainer extends React.Component{
     }
   }
 
-  getBookingsForDate = () => {
+  getBookingsForDate__wBarber = () => {
     const bookingsForDate = this.state.bookings.filter(booking => booking.startTime.includes(this.state.date) && booking.barber.name === this.state.currentBarber)
     this.setState({bookingsForDate})
   }
 
+
   render(){
 
-    return(
-      <React.Fragment>
-        <Calendar onChange={this.dateSelect}/>
-        <SelectForm barbers={this.state.barbers} onChange={this.handleSelectChange}/>
-        <Schedule
-          bookings={this.state.bookingsForDate}
-          barber={this.state.currentBarber}
-          timeSlots={this.state.timeSlots}
-        />
-        <BarberBookingSearch
-          barbers = {this.state.barbers}
-          handleSearch = {this.searchAvailableSlots}
-        />
-        <BookingForm
-          bookingCriteria = {this.state.bookingCriteria}
-          services = {this.state.services}
-          customers = {this.state.customers}
-          submitBooking = {this.handleBookingPost}
-        />
+    const dailyBookings = this.state.bookings.filter(booking => booking.startTime.includes(this.state.date));
 
-      </React.Fragment>
+    return(
+      <div className="main-container">
+        <div className="cal-container">
+          <Calendar onChange={this.dateSelect}/>
+          <DailyTimeTable bookings={dailyBookings}/>
+        </div>
+        <div className="booking-container">
+          <div>
+            <SelectForm barbers={this.state.barbers} onChange={this.handleSelectChange}/>
+            <Schedule
+              bookings={this.state.bookingsForDate}
+              barber={this.state.currentBarber}
+              timeSlots={this.state.timeSlots}
+            />
+          </div>
+          <div>
+            <BarberBookingSearch
+              barbers = {this.state.barbers}
+              handleSearch = {this.searchAvailableSlots}
+            />
+            <BookingForm
+              bookingCriteria = {this.state.bookingCriteria}
+              services = {this.state.services}
+              customers = {this.state.customers}
+              submitBooking = {this.handleBookingPost}
+            />
+          </div>
+        </div>
+
+      </div>
     )
   }
 }

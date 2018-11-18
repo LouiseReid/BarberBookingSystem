@@ -1,0 +1,12 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.cal-container {
+  display: flex;
+}
+
+.booking-container {
+  display: flex;
+}
