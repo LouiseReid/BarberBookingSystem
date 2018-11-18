@@ -23,19 +23,22 @@ const Schedule = (props) => {
     {time:['16:30', '17:00'], booking: null}
   ]
 
-    const format = 'hh:mm'
+    const format = 'HH:mm'
 
     props.bookings.forEach((booking, index) => {
       let startTime = moment(booking.startTime)
-      let endTime = moment(moment(booking.endTime).format('hh:mm'))
+      let endTime = moment(moment(booking.endTime).format('HH:mm'))
         timeSlots.forEach((timeSlot, index) => {
         let slotStart = moment(timeSlot.time[0], format)
         let slotEnd = moment(timeSlot.time[1], format)
         if(startTime._i.includes(slotStart._i)){
           timeSlot.booking = booking
+          timeSlots[index].time[1] = endTime._i
           if(endTime._i > slotEnd._i){
             timeSlots[index].time[1] = endTime._i
-            timeSlots.splice(index +1, 1)
+            if(timeSlots[index +1].booking == null){
+              timeSlots.splice(index +1, 1)
+            }
           }
         }
       })

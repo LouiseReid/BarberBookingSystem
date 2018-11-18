@@ -77,6 +77,9 @@ public class DataLoader implements ApplicationRunner {
         Customer customer2 = new Customer("Steve");
         customerRepository.save(customer2);
 
+        Customer customer3 = new Customer("Walk-in");
+        customerRepository.save(customer3);
+
 
         LocalDateTime startTime = LocalDateTime.of(2018, Month.NOVEMBER, 5, 12, 00);
 
