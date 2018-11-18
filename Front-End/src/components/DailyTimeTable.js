@@ -3,12 +3,15 @@ import Chart from 'react-google-charts';
 
 const DailyTimeTable = (props, NoBookingsPH) => {
 
-
   if(props.bookings.length === 0) return <p>No Bookings For this Date</p>;
 
-
   const data = props.bookings.map((booking, index) => {
-    return [booking.barber.name, booking.customer.name, new Date(booking.startTime), new Date(booking.endTime)]
+    const startTimeHr = booking.startTime.slice(-8).slice(0,2)
+    const startTimeMin = booking.startTime.slice(-5).slice(0,2)
+    const endTimeHr = booking.endTime.slice(-8).slice(0,2)
+    const endTimeMin = booking.endTime.slice(-5).slice(0,2)
+
+    return [booking.barber.name, `${booking.customer.name} - ${booking.service.name}`, new Date(0,0,0, startTimeHr, startTimeMin, 0), new Date(0,0,0,endTimeHr, endTimeMin, 0)]
   })
 
   return (
