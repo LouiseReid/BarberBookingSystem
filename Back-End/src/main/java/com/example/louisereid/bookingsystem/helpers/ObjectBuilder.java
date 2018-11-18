@@ -18,5 +18,5 @@ public class ObjectBuilder {
         Long objectId = Long.parseLong(objectStrId);
         return objectId;
     }
-    
+
 }
