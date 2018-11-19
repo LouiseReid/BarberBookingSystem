@@ -2,14 +2,14 @@ import React from 'react';
 
 const TimeSlot = (props) => {
 
-    const {time, booking} = props.slot
+    const {time, booking, clash} = props.slot
     const startTime = time[0]
     const endTime = time[1]
 
     if(booking != null){
 
       return(
-        <tr>
+        <tr className={`schedule-clash-${clash}`}>
           <td>{startTime} - {endTime}</td>
           <td>{booking.customer.name}</td>
           <td>{booking.service.name}</td>

@@ -5,22 +5,22 @@ import moment from 'moment'
 const Schedule = (props) => {
 
   const timeSlots = [
-    {time:['09:00','09:30'], booking: null},
-    {time:['09:30', '10:00'], booking: null},
-    {time:['10:00', '10:30'], booking: null},
-    {time:['10:30', '11:00'], booking: null},
-    {time:['11:00', '11:30'], booking: null},
-    {time:['11:30', '12:00'], booking: null},
-    {time:['12:00', '12:30'], booking: null},
-    {time:['12:30', '13:00'], booking: null},
-    {time:['13:00', '13:30'], booking: null},
-    {time:['13:30', '14:00'], booking: null},
-    {time:['14:00', '14:30'], booking: null},
-    {time:['14:30', '15:00'], booking: null},
-    {time:['15:00', '15:30'], booking: null},
-    {time:['15:30', '16:00'], booking: null},
-    {time:['16:00', '16:30'], booking: null},
-    {time:['16:30', '17:00'], booking: null}
+    {time:['09:00','09:30'], booking: null, clash: false},
+    {time:['09:30', '10:00'], booking: null, clash: false},
+    {time:['10:00', '10:30'], booking: null, clash: false},
+    {time:['10:30', '11:00'], booking: null, clash: false},
+    {time:['11:00', '11:30'], booking: null, clash: false},
+    {time:['11:30', '12:00'], booking: null, clash: false},
+    {time:['12:00', '12:30'], booking: null, clash: false},
+    {time:['12:30', '13:00'], booking: null, clash: false},
+    {time:['13:00', '13:30'], booking: null, clash: false},
+    {time:['13:30', '14:00'], booking: null, clash: false},
+    {time:['14:00', '14:30'], booking: null, clash: false},
+    {time:['14:30', '15:00'], booking: null, clash: false},
+    {time:['15:00', '15:30'], booking: null, clash: false},
+    {time:['15:30', '16:00'], booking: null, clash: false},
+    {time:['16:00', '16:30'], booking: null, clash: false},
+    {time:['16:30', '17:00'], booking: null, clash: false}
   ]
 
     const format = 'HH:mm'
@@ -38,6 +38,9 @@ const Schedule = (props) => {
             timeSlots[index].time[1] = endTime._i
             if(timeSlots[index +1].booking == null){
               timeSlots.splice(index +1, 1)
+            } else {
+              timeSlots[index].clash = true
+              timeSlots[index +1].clash = true
             }
           }
         }
@@ -49,10 +52,11 @@ const Schedule = (props) => {
       return <TimeSlot key={index} slot={slot} />
     })
 
+const niceDate = moment(props.date).format('ll')
 
     return(
       <div className="">
-        <h3>{props.barber}</h3>
+        <h3>{props.barber} - {niceDate}</h3>
         <table>
           <tbody>
             <tr>

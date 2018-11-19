@@ -1,0 +1,13 @@
+.timetable {
+  flex-basis: 55%;
+  margin: 10px;
+  height: auto;
+}
+
+.timetable-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: dashed 2px grey;
+  background-color: lightgrey;
+}

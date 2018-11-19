@@ -5,8 +5,29 @@
 
 .cal-container {
   display: flex;
+  justify-content: space-evenly;
 }
+
+.react-calendar {
+  flex-basis: 45%;
+  margin: 10px;
+}
+
 
 .booking-container {
   display: flex;
+  justify-content: space-evenly;
+}
+
+.booking-container>* {
+  flex: 1;
+  margin: 10px;
+}
+
+.individual-schedule-container {
+
+}
+
+.process-booking-container {
+
 }

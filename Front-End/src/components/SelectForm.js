@@ -12,7 +12,7 @@ const SelectForm = (props) => {
 
   return (
     <form>
-        <select onChange={handleChange}>
+      <span>View Daily Bookings for:</span>  <select onChange={handleChange}>
           {options}
         </select>
     </form>
