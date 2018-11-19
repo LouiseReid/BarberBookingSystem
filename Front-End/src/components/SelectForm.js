@@ -1,4 +1,5 @@
 import React from 'react';
+import './SelectForm.css';
 
 const SelectForm = (props) => {
 
@@ -11,7 +12,7 @@ const SelectForm = (props) => {
   }
 
   return (
-    <form>
+    <form className="barber-select">
       <span>View Daily Bookings for:</span>  <select onChange={handleChange}>
           {options}
         </select>

@@ -1,0 +1,13 @@
+.schedule-header {
+  text-align: center;
+  font-weight: normal;
+  font-size: 17px;
+  text-decoration: underline;
+  padding: 10px 0;
+}
+
+.table-wrap {
+  column-count:2;
+  -moz-column-count:2;
+  -webkit-column-count:2;
+}
