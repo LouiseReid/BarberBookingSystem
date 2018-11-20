@@ -1,0 +1,44 @@
+.timeslot {
+  margin: 4px;
+  font-size: 13px;
+}
+
+.timeslot:nth-child(1) {
+  margin-top: 0;
+}
+
+.timeslot:nth-of-type(16){
+  margin-bottom: 0;
+}
+
+.timeslot--time {
+  font-size: 14px;
+  font-weight: bold;
+  margin-right: 3px;
+}
+
+.timeslot--customer {
+  margin:0 5px;
+}
+
+.timeslot--service {
+  float: right;
+  margin-right: 3px;
+}
+
+.timeslot--delete-btn {
+  float: right;
+  background: url('/delete.png');
+  width: 16px;
+  height: 16px;
+  border: none;
+
+}
+
+.timeslot--schedule-clash-true {
+  background-color: #e26565a8
+}
+
+.timeslot--schedule-clash-false {
+  background-color: #cde0da45
+}

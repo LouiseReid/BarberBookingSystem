@@ -47,31 +47,16 @@ public class BookingController {
     @RequestMapping(value = "/new", headers = "Accept=application/json", method = RequestMethod.POST)
     public void post(@RequestBody HashMap<String, String> requestData) throws MalformedURLException {
         String customerStr = requestData.get("customer");
-        Long customerId = objectBuilder.findId(customerStr);
-        Optional foundCustomer = customerRepository.findById(customerId);
-        Customer customer = null;
-        if(foundCustomer.isPresent()){
-            customer = (Customer)foundCustomer.get();
-        }
+        Customer customer = ObjectBuilder.build(customerStr, customerRepository);
 
         String barberStr = requestData.get("barber");
-        Long barberId = objectBuilder.findId(barberStr);
-        Optional foundBarber = barberRepository.findById(barberId);
-        Barber barber = null;
-        if (foundBarber.isPresent()){
-            barber = (Barber)foundBarber.get();
-        }
+        Barber barber = ObjectBuilder.build(barberStr, barberRepository);
 
         String startTimeStr = requestData.get("startTime");
         LocalDateTime startTime = LocalDateTime.parse(startTimeStr);
 
         String serviceStr = requestData.get("service");
-        Long serviceId = objectBuilder.findId(serviceStr);
-        Optional foundService = serviceRepository.findById(serviceId);
-        Service service = null;
-        if(foundService.isPresent()){
-            service = (Service)foundService.get();
-        }
+        Service service = ObjectBuilder.build(serviceStr, serviceRepository);
 
         Booking booking = new Booking(customer, barber, startTime, service);
         booking.calculateEndTime();

@@ -1,5 +1,6 @@
 import React from 'react';
 import TimeSlot from './TimeSlot';
+import Request from '../helpers/request';
 import moment from 'moment';
 import './Schedule.css';
 
@@ -48,23 +49,26 @@ const Schedule = (props) => {
     })
   })
 
+  function handleDelete(id){
+    const url = '/api/bookings/' + id;
+    const request = new Request(url);
+    request.delete(url).then(() => {
+      window.location = '/'
+    });
+  }
 
   const slots = timeSlots.map((slot, index) => {
-    return <TimeSlot key={index} slot={slot} />
+    return <TimeSlot key={index} slot={slot} delete={handleDelete}/>
   })
 
   const niceDate = moment(props.date).format('ll')
 
   return(
-    <div className="">
+    <div className="schedule">
       <h4 className="schedule-header">{props.barber} - {niceDate}</h4>
-      <table>
-        <tbody>
-          <div className="table-wrap">
-            {slots}
-          </div>
-        </tbody>
-      </table>
+      <div className="column-wrap">
+        {slots}
+      </div>
     </div>
   )
 

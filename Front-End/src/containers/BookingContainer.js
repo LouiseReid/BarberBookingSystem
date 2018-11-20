@@ -51,6 +51,7 @@ class BookingContainer extends React.Component{
     const request = new Request()
     request.get('/api/bookings').then((data) => {
       this.setState({bookings: data._embedded.bookings})
+      this.getBookingsForDate__wBarber()
     })
 
     const request2 = new Request();
@@ -70,6 +71,7 @@ class BookingContainer extends React.Component{
 
     const formattedDate = moment(this.state.date).format('YYYY-MM-DD')
     this.setState({date: formattedDate})
+
   }
 
   handleSelectChange = currentBarber => {
@@ -121,8 +123,9 @@ class BookingContainer extends React.Component{
           slots.forEach((unavailable) => {
             if(unavailable.startTime.includes(slot.time[0])){
               timesToRemove.push(slot)
-              if(unavailable.endTime.slice(-8) > slot.time[1]){
+              if(unavailable.endTime.slice(-8) > slot.time[1] &&unavailable.endTime.slice(-8).substring(0, 5) !== slot.time[1]){
                 const rolledIntoSlot = this.state.timeSlots[index +1]
+                console.log(rolledIntoSlot);
                 timesToRemove.push(rolledIntoSlot)
               }
             }

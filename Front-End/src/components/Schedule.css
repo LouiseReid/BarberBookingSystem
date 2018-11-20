@@ -1,13 +1,22 @@
+.schedule {
+  margin: 0 -5px;
+}
+
 .schedule-header {
   text-align: center;
   font-weight: normal;
   font-size: 17px;
   text-decoration: underline;
+  text-decoration-color: #a8ccc1;
   padding: 10px 0;
 }
 
-.table-wrap {
+.column-wrap {
   column-count:2;
   -moz-column-count:2;
   -webkit-column-count:2;
+  column-gap: 4px;
+  -moz-column-gap: 4px;
+  -webkit-column-gap: 4px;
+
 }
