@@ -1,7 +1,7 @@
 import React from 'react';
 import Request from '../helpers/request';
 import Schedule from '../components/Schedule';
-import SelectForm from '../components/SelectForm';
+import BarberSelect from '../components/BarberSelect';
 import BookingForm from '../components/BookingForm';
 import BarberBookingSearch from '../components/BarberBookingSearch';
 import DailyTimeTable from '../components/DailyTimeTable';
@@ -35,8 +35,8 @@ class BookingContainer extends React.Component{
         {time:['16:00', '16:30']},
         {time:['16:30', '17:00']}
       ],
-      currentBarber: 'Gemma',
-      date: new Date(),
+      currentBarber: localStorage.getItem("currentBarber") || "Gemma",
+      date: localStorage.getItem("date") || new Date(),
       bookingsForDate: [],
       bookingCriteria: {
         availableSlots: [],
@@ -76,6 +76,7 @@ class BookingContainer extends React.Component{
 
   handleSelectChange = currentBarber => {
     this.setState({currentBarber}, this.getBookingsForDate__wBarber)
+    localStorage.setItem("currentBarber", currentBarber)
     }
 
     handleBookingPost = booking => {
@@ -156,11 +157,11 @@ class BookingContainer extends React.Component{
         <div className="main-container">
           <div className="cal-container">
             <Calendar onChange={this.dateSelect}/>
-            <DailyTimeTable bookings={dailyBookings} />
+            <DailyTimeTable bookings={dailyBookings} date={this.state.date}/>
           </div>
           <div className="booking-container">
             <div className="individual-schedule-container">
-              <SelectForm barbers={this.state.barbers} onChange={this.handleSelectChange}/>
+              <BarberSelect barbers={this.state.barbers} onChange={this.handleSelectChange}/>
               <Schedule
                 date={this.state.date}
                 bookings={this.state.bookingsForDate}

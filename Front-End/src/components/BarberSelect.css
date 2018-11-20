@@ -1,0 +1,33 @@
+.barber-select-btn-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.barber-select-btn {
+  display: block;
+  position: relative;
+  border: 1px solid #a8ccc1;
+  border-radius: 30%;
+  background-color: #f4f5f7;
+  padding: 5px 10px;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 15px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 2px #bfd5cd;
+  transition: all .5s
+}
+
+.barber-select-btn:hover {
+  box-shadow: 0 1px #bfd5cd;
+  top: 2px;
+}
+
+.barber-select-btn:focus {
+  outline: none;
+}
+
+.barber-select-btn:active {
+  box-shadow: none;
+  top: 6px;
+}

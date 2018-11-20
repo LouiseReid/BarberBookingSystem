@@ -28,6 +28,8 @@ const BookingForm = ({bookingCriteria, services, customers, submitBooking}) => {
        "customer": evt.target.customer.value
      }
      submitBooking(booking)
+     localStorage.setItem("currentBarber", bookingCriteria.barber.name)
+     localStorage.setItem("date", bookingCriteria.date)
    }
 
   return(

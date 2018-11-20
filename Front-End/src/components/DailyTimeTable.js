@@ -1,11 +1,15 @@
 import React from 'react';
 import Chart from 'react-google-charts';
+import moment from 'moment';
 import './DailyTimeTable.css'
 
 
 const DailyTimeTable = (props, NoBookingsPH) => {
 
-  if(props.bookings.length === 0) return <p className="timetable timetable-placeholder">No Bookings For this Date</p>;
+  const niceDate = moment(props.date).format('ll')
+
+
+  if(props.bookings.length === 0) return <p className="timetable timetable-placeholder">No Bookings For {niceDate}</p>;
 
   const data = props.bookings.map((booking, index) => {
     const startTimeHr = booking.startTime.slice(-8).slice(0,2)
@@ -16,8 +20,10 @@ const DailyTimeTable = (props, NoBookingsPH) => {
     return [booking.barber.name, `${booking.customer.name} - ${booking.service.name}`, new Date(0,0,0, startTimeHr, startTimeMin, 0), new Date(0,0,0,endTimeHr, endTimeMin, 0)]
   })
 
+
   return (
     <div className="timetable">
+      <h4 className="schedule-header">{niceDate}</h4>
       <Chart
         width={'100%'}
         height={'200px'}
