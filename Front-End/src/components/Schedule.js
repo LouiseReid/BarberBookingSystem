@@ -38,11 +38,14 @@ const Schedule = (props) => {
         timeSlots[index].time[1] = endTime._i
         if(endTime._i > slotEnd._i){
           timeSlots[index].time[1] = endTime._i
-          if(timeSlots[index +1].booking == null){
+          if(timeSlots[index +1] && timeSlots[index +1].booking == null){
             timeSlots.splice(index +1, 1)
           } else {
             timeSlots[index].clash = true
-            timeSlots[index +1].clash = true
+            if(timeSlots[index +1]){
+              timeSlots[index +1].clash = true
+
+            }
           }
         }
       }

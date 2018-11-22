@@ -1,4 +1,5 @@
 import React from 'react';
+import './BarberBookingSearch.css'
 
 class BarberBookingSearch extends React.Component {
   constructor(props){
@@ -42,15 +43,15 @@ class BarberBookingSearch extends React.Component {
 
       return(
         <div>
-          <form onSubmit={this.handleSubmit}>
+          <form className="booking-search-form" onSubmit={this.handleSubmit}>
             <label htmlFor="barber">Barber: </label>
             <select id="barber" onChange={this.handleBarberChange}>
               <option>Select Barber</option>
               {barbers}
             </select>
-            <label htmlFor="date">Date: </label>
+            <label htmlFor="date" className="booking-search-form-date-label">Date: </label>
             <input id="date" type="date" onChange={this.handleDateChange}></input>
-            <button type="submit">Search</button>
+            <button className="booking-search-btn" type="submit">Search</button>
           </form>
         </div>
       )

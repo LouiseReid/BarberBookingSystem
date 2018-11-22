@@ -45,7 +45,7 @@ public class BookingController {
 
 
     @RequestMapping(value = "/new", headers = "Accept=application/json", method = RequestMethod.POST)
-    public void post(@RequestBody HashMap<String, String> requestData) throws MalformedURLException {
+    public void post(@RequestBody HashMap<String, String> requestData) {
         String customerStr = requestData.get("customer");
         Customer customer = ObjectBuilder.build(customerStr, customerRepository);
 

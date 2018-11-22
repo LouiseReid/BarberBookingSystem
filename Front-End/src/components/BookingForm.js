@@ -1,55 +1,77 @@
 import React from 'react';
-import moment from 'moment'
+import SuggestionInputSearch from 'suggestion-react-input-search';
+import moment from 'moment';
+import './BookingForm.css'
 
-const BookingForm = ({bookingCriteria, services, customers, submitBooking}) => {
+class BookingForm extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      customer: ''
+    }
+  }
 
-   if(bookingCriteria.barber === null) return null;
+   handleOnSubmit = (term) => {
+    const foundCustomer = this.props.customers.find(customer => {
+      return customer.name === term.charAt(0).toUpperCase() + term.slice(1);
+    })
+    this.setState({customer: foundCustomer._links.self.href})
+  }
 
-   const niceDate = moment(bookingCriteria.date).format('ll')
+   handleFormSubmit = (evt) => {
+    evt.preventDefault()
+    const booking = {
+      "startTime": `${this.props.bookingCriteria.date}T${evt.target.startTime.value}`,
+      "barber": this.props.bookingCriteria.barber.url,
+      "service": evt.target.service.value,
+      "customer": this.state.customer
+    }
+    this.props.submitBooking(booking)
+    localStorage.setItem("currentBarber", this.props.bookingCriteria.barber.name)
+    localStorage.setItem("date", this.props.bookingCriteria.date)
+  }
 
-   const slotStart = bookingCriteria.availableSlots.map((time, index) => {
-     return <option key={index} value={time.time[0]}>{time.time[0]}</option>
-   })
 
-   const serviceOptions = services.map((service, index) => {
-     return <option key={index} value={service._links.self.href}>{service.name}</option>
-   })
+  render(){
+    const {bookingCriteria, customers, services} = this.props;
 
-   const customerOptions = customers.map((customer, index) => {
-     return <option key={index} value={customer._links.self.href}>{customer.name}</option>
-   })
+    if(bookingCriteria.barber === null) return null;
 
-   function handleFormSubmit(evt) {
-     evt.preventDefault()
-     const booking = {
-       "startTime": `${bookingCriteria.date}T${evt.target.startTime.value}`,
-       "barber": bookingCriteria.barber.url,
-       "service": evt.target.service.value,
-       "customer": evt.target.customer.value
-     }
-     submitBooking(booking)
-     localStorage.setItem("currentBarber", bookingCriteria.barber.name)
-     localStorage.setItem("date", bookingCriteria.date)
-   }
+    const niceDate = moment(bookingCriteria.date).format('ll')
 
-  return(
-    <div>
-      <p>Barber: {bookingCriteria.barber.name}</p>
-      <p>Date: {niceDate}</p>
-      <form onSubmit={handleFormSubmit}>
-        <select name="startTime">
-          {slotStart}
-        </select>
-        <select name="service">
-          {serviceOptions}
-        </select>
-        <select name="customer">
-          {customerOptions}
-        </select>
-        <button type="submit">Book</button>
-      </form>
-    </div>
-  )
+    const slotStart = bookingCriteria.availableSlots.map((time, index) => {
+      return <option key={index} value={time.time[0]}>{time.time[0]}</option>
+    })
+
+    const serviceOptions = services.map((service, index) => {
+      return <option key={index} value={service._links.self.href}>{service.name}</option>
+    })
+
+    const customersNames = customers.map(customer => customer.name)
+
+
+    return(
+      <div className="booking-form">
+        <p>Barber: {bookingCriteria.barber.name}</p>
+        <p>Date: {niceDate}</p>
+        <form onSubmit={this.handleFormSubmit}>
+          <select name="startTime">
+            {slotStart}
+          </select>
+          <select name="service">
+            {serviceOptions}
+          </select>
+
+          <SuggestionInputSearch
+            onSubmitFunction={this.handleOnSubmit}
+            recentSearches={customersNames}
+            placeholder="Search customers"
+          />
+          <button className="booking-form-btn" type="submit">Book</button>
+        </form>
+      </div>
+    )
+  }
 }
 
 

@@ -18,5 +18,8 @@
   column-gap: 4px;
   -moz-column-gap: 4px;
   -webkit-column-gap: 4px;
+}
 
+.individual-schedule-container {
+  padding: 10px 6px
 }

@@ -157,7 +157,7 @@ class BookingContainer extends React.Component{
         <div className="main-container">
           <div className="cal-container">
             <Calendar onChange={this.dateSelect}/>
-            <DailyTimeTable bookings={dailyBookings} date={this.state.date}/>
+            <DailyTimeTable bookings={dailyBookings} date={this.state.da}/>
           </div>
           <div className="booking-container">
             <div className="individual-schedule-container">
@@ -180,6 +180,7 @@ class BookingContainer extends React.Component{
                 customers = {this.state.customers}
                 submitBooking = {this.handleBookingPost}
               />
+              {/* <CustomerSearch customers={this.state.customers} /> */}
             </div>
           </div>
 

@@ -12,9 +12,7 @@
 }
 
 .timeslot--time {
-  font-size: 14px;
   font-weight: bold;
-  margin-right: 3px;
 }
 
 .timeslot--customer {
@@ -28,7 +26,8 @@
 
 .timeslot--delete-btn {
   float: right;
-  background: url('/delete.png');
+  background-color: transparent;
+  font-weight: bolder;
   width: 16px;
   height: 16px;
   border: none;
@@ -41,4 +40,20 @@
 
 .timeslot--schedule-clash-false {
   background-color: #cde0da45
+}
+
+.react-confirm-alert-body {
+  font-family: 'Open Sans Condensed', sans-serif;
+  text-align: center;
+}
+
+
+.react-confirm-alert-body button{
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-weight: bolder;
+  background-color: #688b80;
+}
+
+.react-confirm-alert-button-group {
+  justify-content: space-evenly;
 }
