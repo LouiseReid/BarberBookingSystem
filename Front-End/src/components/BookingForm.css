@@ -1,10 +1,33 @@
 .search-input-container .suggestion-input {
   float: right;
   width: 200px;
+  line-height: 2.2;
+}
+
+.search-input-container .suggestion-input:focus {
+  border-bottom: 2px solid #a8ccc1;
+}
+
+.search-input-container .search-input-container__inner {
+  width: 200px;
+  position: relative;
+  margin: 15px 0;
 }
 
 .booking-form {
-  
+  margin: 20px 0;
+}
+
+.booking-form p {
+  margin: 5px 0
+}
+
+.service-select {
+  margin-left: 10px;
+}
+
+.customer-search {
+
 }
 
 .booking-form-btn {

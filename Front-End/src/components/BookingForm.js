@@ -58,14 +58,15 @@ class BookingForm extends React.Component {
           <select name="startTime">
             {slotStart}
           </select>
-          <select name="service">
+          <select name="service" className="service-select">
             {serviceOptions}
           </select>
 
           <SuggestionInputSearch
             onSubmitFunction={this.handleOnSubmit}
             recentSearches={customersNames}
-            placeholder="Search customers"
+            placeholder="Search customers..."
+            className="customer-search"
           />
           <button className="booking-form-btn" type="submit">Book</button>
         </form>
