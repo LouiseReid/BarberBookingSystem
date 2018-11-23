@@ -126,7 +126,6 @@ class BookingContainer extends React.Component{
               timesToRemove.push(slot)
               if(unavailable.endTime.slice(-8) > slot.time[1] &&unavailable.endTime.slice(-8).substring(0, 5) !== slot.time[1]){
                 const rolledIntoSlot = this.state.timeSlots[index +1]
-                console.log(rolledIntoSlot);
                 timesToRemove.push(rolledIntoSlot)
               }
             }
@@ -180,7 +179,6 @@ class BookingContainer extends React.Component{
                 customers = {this.state.customers}
                 submitBooking = {this.handleBookingPost}
               />
-              {/* <CustomerSearch customers={this.state.customers} /> */}
             </div>
           </div>
 

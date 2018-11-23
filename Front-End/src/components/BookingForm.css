@@ -1,3 +1,15 @@
+.booking-form {
+  margin: 20px 0;
+}
+
+.booking-form p {
+  margin: 5px 0
+}
+
+.service-select {
+  margin-left: 10px;
+}
+
 .search-input-container .suggestion-input {
   float: right;
   width: 200px;
@@ -12,22 +24,6 @@
   width: 200px;
   position: relative;
   margin: 15px 0;
-}
-
-.booking-form {
-  margin: 20px 0;
-}
-
-.booking-form p {
-  margin: 5px 0
-}
-
-.service-select {
-  margin-left: 10px;
-}
-
-.customer-search {
-
 }
 
 .booking-form-btn {

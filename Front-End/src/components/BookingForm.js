@@ -12,8 +12,9 @@ class BookingForm extends React.Component {
   }
 
    handleOnSubmit = (term) => {
+    const splitTerm = term.split(' ')
     const foundCustomer = this.props.customers.find(customer => {
-      return customer.name === term.charAt(0).toUpperCase() + term.slice(1);
+      return customer.firstName === splitTerm[0].charAt(0).toUpperCase() + splitTerm[0].slice(1) && customer.lastName === splitTerm[1].charAt(0).toUpperCase() + splitTerm[1].slice(1) && customer.phoneNo === splitTerm[2];
     })
     this.setState({customer: foundCustomer._links.self.href})
   }
@@ -47,7 +48,9 @@ class BookingForm extends React.Component {
       return <option key={index} value={service._links.self.href}>{service.name}</option>
     })
 
-    const customersNames = customers.map(customer => customer.name)
+    const customersNames = customers.map(customer => {
+      return `${customer.firstName} ${customer.lastName} ${customer.phoneNo}`
+    })
 
 
     return(

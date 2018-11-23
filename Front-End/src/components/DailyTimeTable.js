@@ -16,8 +16,9 @@ const DailyTimeTable = (props, NoBookingsPH) => {
     const startTimeMin = booking.startTime.slice(-5).slice(0,2)
     const endTimeHr = booking.endTime.slice(-8).slice(0,2)
     const endTimeMin = booking.endTime.slice(-5).slice(0,2)
+    const custDeets = `${booking.customer.firstName} ${booking.customer.lastName} ${booking.customer.phoneNo} - ${booking.service.name}`
 
-    return [booking.barber.name, `${booking.customer.name} - ${booking.service.name}`, new Date(0,0,0, startTimeHr, startTimeMin, 0), new Date(0,0,0,endTimeHr, endTimeMin, 0)]
+    return [booking.barber.name, custDeets, new Date(0,0,0, startTimeHr, startTimeMin, 0), new Date(0,0,0,endTimeHr, endTimeMin, 0)]
   })
 
 

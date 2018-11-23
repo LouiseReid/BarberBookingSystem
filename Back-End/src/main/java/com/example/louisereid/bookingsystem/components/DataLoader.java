@@ -71,17 +71,17 @@ public class DataLoader implements ApplicationRunner {
         Barber jeff = new Barber("Jeff");
         barberRepository.save(jeff);
 
-        Customer customer1 = new Customer("Joe");
+        Customer customer1 = new Customer("Joe", "Brown", "07780076534");
         customerRepository.save(customer1);
 
-        Customer customer2 = new Customer("Steve");
+        Customer customer2 = new Customer("Steve", "Smith", "0787345672");
         customerRepository.save(customer2);
 
-        Customer customer3 = new Customer("Walk-in");
+        Customer customer3 = new Customer("Sarah", "Daniels", "07765490832");
         customerRepository.save(customer3);
 
 
-        LocalDateTime startTime = LocalDateTime.of(2018, Month.NOVEMBER, 5, 12, 00);
+        LocalDateTime startTime = LocalDateTime.of(2018, Month.NOVEMBER, 23, 12, 00);
 
         Booking booking1 = new Booking(customer1, gemma, startTime, cutAndStyleAndBT);
         bookingRepository.save(booking1);
@@ -95,7 +95,7 @@ public class DataLoader implements ApplicationRunner {
         cutAndStyleAndBT.addBooking(booking1);
         serviceRepository.save(cutAndStyleAndBT);
 
-        LocalDateTime startTime2 = LocalDateTime.of(2018, Month.NOVEMBER, 6, 10, 30);
+        LocalDateTime startTime2 = LocalDateTime.of(2018, Month.NOVEMBER, 23, 10, 30);
 
         Booking booking2 = new Booking(customer2, alan, startTime2, fade);
         bookingRepository.save(booking2);

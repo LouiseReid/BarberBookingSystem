@@ -34,7 +34,7 @@ const TimeSlot = (props) => {
 
     return(
       <div className={`timeslot timeslot--schedule-clash-${clash}`}>
-        <span className="timeslot--time">{startTime} - {endTime}</span><span className="timeslot--customer">{booking.customer.name}</span><button className="timeslot--delete-btn" onClick={submit}>X</button><span className="timeslot--service">{booking.service.name}</span>
+        <span className="timeslot--time">{startTime} - {endTime}</span><span className="timeslot--customer">{booking.customer.firstName}</span><button className="timeslot--delete-btn" onClick={submit}>X</button><span className="timeslot--service">{booking.service.name}</span>
       </div>
     )
   } else {
