@@ -87,7 +87,6 @@ class BookingForm extends React.Component {
             <select name="service" className="service-select">
               {serviceOptions}
             </select>
-
             <SuggestionInputSearch
               onSubmitFunction={this.handleOnSubmit}
               recentSearches={customersNames}
