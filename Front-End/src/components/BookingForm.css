@@ -1,3 +1,7 @@
+.booking-register-container {
+  display: flex;
+}
+
 .booking-form {
   margin: 20px 0;
 }
@@ -26,7 +30,7 @@
   margin: 15px 0;
 }
 
-.booking-form-btn, .register-form-btn {
+.booking-form-btn, .register-form-btn, .register-customer-btn {
   border: 1px solid #a8ccc1;
   border-radius: 30%;
   background-color: #f4f5f7;
@@ -45,18 +49,31 @@
   border-radius: 20%;
 }
 
-.booking-form-btn:hover, .register-form-btn:hover {
+.booking-form-btn:hover, .register-form-btn:hover, .register-customer-btn:hover {
   box-shadow: 0 1px #bfd5cd;
   top: 2px;
 }
 
-.booking-form-btn:focus, .register-form-btn:focus {
+.booking-form-btn:focus, .register-form-btn:focus, .register-customer-btn:focus {
   outline: none;
 }
 
-.booking-form-btn:active, .register-form-btn:active {
+.booking-form-btn:active, .register-form-btn:active, .register-customer-btn:active {
   box-shadow: none;
   top: 6px;
+}
+
+.modal-container {
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+  flex-basis: 50%
+}
+
+.register-customer-btn {
+  margin: 0 auto;
+  font-size: 15px;
+  border-radius: 2%
 }
 
 .modal {

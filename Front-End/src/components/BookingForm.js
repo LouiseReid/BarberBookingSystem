@@ -52,6 +52,7 @@ class BookingForm extends React.Component {
       "phoneNo": evt.target.phoneNo.value
     }
     this.props.registerCustomer(customer)
+    this.closeModal()
   }
 
   render(){
@@ -75,7 +76,7 @@ class BookingForm extends React.Component {
 
 
     return(
-      <div>
+      <div className="booking-register-container">
         <div className="booking-form">
           <p>Barber: {bookingCriteria.barber.name}</p>
           <p>Date: {niceDate}</p>
@@ -96,8 +97,8 @@ class BookingForm extends React.Component {
             <button className="booking-form-btn" type="submit">Book</button>
           </form>
         </div>
-        <div>
-          <button onClick={this.openModal}>Register New Customer</button>
+        <div className="modal-container">
+          <button className="register-customer-btn" onClick={this.openModal}>Register New Customer</button>
           <Modal
             isOpen={this.state.modalIsOpen}
             onRequestClose={this.closeModal}

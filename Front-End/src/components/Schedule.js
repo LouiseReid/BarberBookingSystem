@@ -53,11 +53,7 @@ const Schedule = (props) => {
   })
 
   function handleDelete(id){
-    const url = '/api/bookings/' + id;
-    const request = new Request(url);
-    request.delete(url).then(() => {
-      window.location = '/'
-    });
+    props.handleDelete(id)
   }
 
   const slots = timeSlots.map((slot, index) => {

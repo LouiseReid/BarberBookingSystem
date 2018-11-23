@@ -48,30 +48,41 @@ class BookingContainer extends React.Component{
 
 
   componentDidMount(){
-    const request = new Request()
-    request.get('/api/bookings').then((data) => {
-      this.setState({bookings: data._embedded.bookings})
-      this.getBookingsForDate__wBarber()
-    })
-
-    const request2 = new Request();
-    request2.get("/api/customers").then((data) => {
-      this.setState({customers: data._embedded.customers})
-    });
-
-    const request3 = new Request();
-    request3.get("/api/services").then((data) => {
-      this.setState({services: data._embedded.services})
-    });
-
-    const request4 = new Request();
-    request4.get("/api/barbers").then((data) => {
-      this.setState({barbers: data._embedded.barbers})
-    });
+    this.getBookings()
+    this.getBarbers()
+    this.getServices()
+    this.getCustomers()
 
     const formattedDate = moment(this.state.date).format('YYYY-MM-DD')
     this.setState({date: formattedDate})
+  }
 
+  getBarbers = () => {
+    const request = new Request();
+    request.get("/api/barbers").then((data) => {
+      this.setState({barbers: data._embedded.barbers})
+    });
+  }
+
+  getBookings = () => {
+    const request = new Request()
+    request.get('/api/bookings').then((data) => {
+      this.setState({bookings: data._embedded.bookings}, this.getBookingsForDate__wBarber)
+    })
+  }
+
+  getCustomers = () => {
+    const request = new Request();
+    request.get("/api/customers").then((data) => {
+      this.setState({customers: data._embedded.customers})
+    });
+  }
+
+  getServices = () => {
+    const request = new Request();
+    request.get("/api/services").then((data) => {
+      this.setState({services: data._embedded.services})
+    });
   }
 
   handleSelectChange = currentBarber => {
@@ -86,10 +97,19 @@ class BookingContainer extends React.Component{
     })
   }
 
+  handleBookingDelete = bookingId => {
+    const url = '/api/bookings/' + bookingId;
+    const request = new Request();
+    request.delete(url).then(() => {
+      this.getBookings()
+    })
+
+  }
+
   handCustomerPost = customer => {
     const request = new Request();
     request.post('/api/customers', customer).then(() => {
-      window.location = '/'
+      this.getCustomers()
     })
   }
 
@@ -163,7 +183,7 @@ class BookingContainer extends React.Component{
       <div className="main-container">
         <div className="cal-container">
           <Calendar onChange={this.dateSelect}/>
-          <DailyTimeTable bookings={dailyBookings} date={this.state.da}/>
+          <DailyTimeTable bookings={dailyBookings} date={this.state.date}/>
         </div>
         <div className="booking-container">
           <div className="individual-schedule-container">
@@ -173,6 +193,7 @@ class BookingContainer extends React.Component{
               bookings={this.state.bookingsForDate}
               barber={this.state.currentBarber}
               timeSlots={this.state.timeSlots}
+              handleDelete={this.handleBookingDelete}
             />
           </div>
           <div className="process-booking-container">
