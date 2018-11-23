@@ -1,13 +1,17 @@
 import React from 'react';
 import SuggestionInputSearch from 'suggestion-react-input-search';
+import Modal from 'react-modal';
 import moment from 'moment';
 import './BookingForm.css'
+
+Modal.setAppElement('#root')
 
 class BookingForm extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      customer: ''
+      customer: '',
+      modalIsOpen: false
     }
   }
 
@@ -32,6 +36,23 @@ class BookingForm extends React.Component {
     localStorage.setItem("date", this.props.bookingCriteria.date)
   }
 
+  openModal = () => {
+    this.setState({modalIsOpen: true});
+  }
+
+  closeModal = () => {
+    this.setState({modalIsOpen: false});
+  }
+
+  registerCustomer = (evt) => {
+    evt.preventDefault()
+    const customer = {
+      "firstName": evt.target.firstName.value,
+      "lastName": evt.target.lastName.value,
+      "phoneNo": evt.target.phoneNo.value
+    }
+    this.props.registerCustomer(customer)
+  }
 
   render(){
     const {bookingCriteria, customers, services} = this.props;
@@ -54,26 +75,52 @@ class BookingForm extends React.Component {
 
 
     return(
-      <div className="booking-form">
-        <p>Barber: {bookingCriteria.barber.name}</p>
-        <p>Date: {niceDate}</p>
-        <form onSubmit={this.handleFormSubmit}>
-          <select name="startTime">
-            {slotStart}
-          </select>
-          <select name="service" className="service-select">
-            {serviceOptions}
-          </select>
+      <div>
+        <div className="booking-form">
+          <p>Barber: {bookingCriteria.barber.name}</p>
+          <p>Date: {niceDate}</p>
+          <form onSubmit={this.handleFormSubmit}>
+            <select name="startTime">
+              {slotStart}
+            </select>
+            <select name="service" className="service-select">
+              {serviceOptions}
+            </select>
 
-          <SuggestionInputSearch
-            onSubmitFunction={this.handleOnSubmit}
-            recentSearches={customersNames}
-            placeholder="Search customers..."
-            className="customer-search"
-          />
-          <button className="booking-form-btn" type="submit">Book</button>
-        </form>
+            <SuggestionInputSearch
+              onSubmitFunction={this.handleOnSubmit}
+              recentSearches={customersNames}
+              placeholder="Search customers..."
+              className="customer-search"
+            />
+            <button className="booking-form-btn" type="submit">Book</button>
+          </form>
+        </div>
+        <div>
+          <button onClick={this.openModal}>Register New Customer</button>
+          <Modal
+            isOpen={this.state.modalIsOpen}
+            onRequestClose={this.closeModal}
+            contentLabel="Example Modal"
+            className="modal"
+          >
+            <div className="modal-content">
+              <button className="modal-close" onClick={this.closeModal}>X</button>
+              <h3 className="modal-header">Register New Customer</h3>
+              <form className="register-form" onSubmit={this.registerCustomer}>
+                <label htmlFor="firstName">First Name:</label>
+                <input type="text" id="firstName"/>
+                <label htmlFor="lastName">Last Name:</label>
+                <input type="text" id="lastName"/>
+                <label htmlFor="phoneNo">Phone No.:</label>
+                <input type="text" id="phoneNo"/>
+                <button className="register-form-btn" type="submit">Register</button>
+              </form>
+            </div>
+          </Modal>
+        </div>
       </div>
+
     )
   }
 }

@@ -77,114 +77,122 @@ class BookingContainer extends React.Component{
   handleSelectChange = currentBarber => {
     this.setState({currentBarber}, this.getBookingsForDate__wBarber)
     localStorage.setItem("currentBarber", currentBarber)
+  }
+
+  handleBookingPost = booking => {
+    const request = new Request();
+    request.post('/api/bookings/new', booking).then(() => {
+      window.location = '/'
+    })
+  }
+
+  handCustomerPost = customer => {
+    const request = new Request();
+    request.post('/api/customers', customer).then(() => {
+      window.location = '/'
+    })
+  }
+
+  dateSelect = date => {
+    const formattedDate = moment(date).format('YYYY-MM-DD')
+    this.setState({date: formattedDate}, this.getBookingsForDate__wBarber)
+  };
+
+  searchAvailableSlots = (barber, date) => {
+    if(barber === null || barber.name === null){
+      return false;
     }
-
-    handleBookingPost = booking => {
-      const request = new Request();
-      request.post('/api/bookings/new', booking).then(() => {
-        window.location = '/'
-      })
-    }
-
-    dateSelect = date => {
-      const formattedDate = moment(date).format('YYYY-MM-DD')
-      this.setState({date: formattedDate}, this.getBookingsForDate__wBarber)
-    };
-
-    searchAvailableSlots = (barber, date) => {
-      if(barber === null || barber.name === null){
-        return false;
+    const barbersBookings = this.state.barbers.find(barb => barb.name === barber.name)
+    const unavailableTimes = []
+    barbersBookings.bookings.forEach((booking) => {
+      if(booking.startTime.includes(moment(date).format('YYYY-MM-DD')) || booking.endTime.includes(moment(date).format('YYYY-MM-DD'))){
+        unavailableTimes.push(booking)
       }
-      const barbersBookings = this.state.barbers.find(barb => barb.name === barber.name)
-      const unavailableTimes = []
-      barbersBookings.bookings.forEach((booking) => {
-        if(booking.startTime.includes(moment(date).format('YYYY-MM-DD')) || booking.endTime.includes(moment(date).format('YYYY-MM-DD'))){
-          unavailableTimes.push(booking)
+    })
+    this.setState(prevState => ({
+      bookingCriteria: {
+        ...prevState.bookingCriteria, barber, date
+      }
+    }))
+    this.filterUnavailableTimes(unavailableTimes)
+  }
+
+  filterUnavailableTimes = slots => {
+    if(slots[0] === undefined || slots.length === 0){
+      this.setState(prevState => ({
+        bookingCriteria: {
+          ...prevState.bookingCriteria,
+          availableSlots: this.state.timeSlots
         }
+      }))
+    } else {
+      const timesToRemove = []
+      this.state.timeSlots.forEach((slot, index) => {
+        slots.forEach((unavailable) => {
+          if(unavailable.startTime.includes(slot.time[0])){
+            timesToRemove.push(slot)
+            if(unavailable.endTime.slice(-8) > slot.time[1] &&unavailable.endTime.slice(-8).substring(0, 5) !== slot.time[1]){
+              const rolledIntoSlot = this.state.timeSlots[index +1]
+              timesToRemove.push(rolledIntoSlot)
+            }
+          }
+        })
+      })
+      const availableSlots = this.state.timeSlots.filter((timeSlot) => {
+        return timesToRemove.indexOf(timeSlot) === -1
       })
       this.setState(prevState => ({
         bookingCriteria: {
-          ...prevState.bookingCriteria, barber, date
+          ...prevState.bookingCriteria, availableSlots
         }
       }))
-      this.filterUnavailableTimes(unavailableTimes)
-    }
-
-    filterUnavailableTimes = slots => {
-      if(slots[0] === undefined || slots.length === 0){
-        this.setState(prevState => ({
-          bookingCriteria: {
-            ...prevState.bookingCriteria,
-            availableSlots: this.state.timeSlots
-          }
-        }))
-      } else {
-        const timesToRemove = []
-        this.state.timeSlots.forEach((slot, index) => {
-          slots.forEach((unavailable) => {
-            if(unavailable.startTime.includes(slot.time[0])){
-              timesToRemove.push(slot)
-              if(unavailable.endTime.slice(-8) > slot.time[1] &&unavailable.endTime.slice(-8).substring(0, 5) !== slot.time[1]){
-                const rolledIntoSlot = this.state.timeSlots[index +1]
-                timesToRemove.push(rolledIntoSlot)
-              }
-            }
-          })
-        })
-        const availableSlots = this.state.timeSlots.filter((timeSlot) => {
-          return timesToRemove.indexOf(timeSlot) === -1
-        })
-        this.setState(prevState => ({
-          bookingCriteria: {
-            ...prevState.bookingCriteria, availableSlots
-          }
-        }))
-      }
-    }
-
-    getBookingsForDate__wBarber = () => {
-      const bookingsForDate = this.state.bookings.filter(booking => booking.startTime.includes(this.state.date) && booking.barber.name === this.state.currentBarber)
-      this.setState({bookingsForDate})
-    }
-
-
-    render(){
-
-      const dailyBookings = this.state.bookings.filter(booking => booking.startTime.includes(this.state.date));
-
-      return(
-        <div className="main-container">
-          <div className="cal-container">
-            <Calendar onChange={this.dateSelect}/>
-            <DailyTimeTable bookings={dailyBookings} date={this.state.da}/>
-          </div>
-          <div className="booking-container">
-            <div className="individual-schedule-container">
-              <BarberSelect barbers={this.state.barbers} onChange={this.handleSelectChange}/>
-              <Schedule
-                date={this.state.date}
-                bookings={this.state.bookingsForDate}
-                barber={this.state.currentBarber}
-                timeSlots={this.state.timeSlots}
-              />
-            </div>
-            <div className="process-booking-container">
-              <BarberBookingSearch
-                barbers = {this.state.barbers}
-                handleSearch = {this.searchAvailableSlots}
-              />
-              <BookingForm
-                bookingCriteria = {this.state.bookingCriteria}
-                services = {this.state.services}
-                customers = {this.state.customers}
-                submitBooking = {this.handleBookingPost}
-              />
-            </div>
-          </div>
-
-        </div>
-      )
     }
   }
 
-  export default BookingContainer;
+  getBookingsForDate__wBarber = () => {
+    const bookingsForDate = this.state.bookings.filter(booking => booking.startTime.includes(this.state.date) && booking.barber.name === this.state.currentBarber)
+    this.setState({bookingsForDate})
+  }
+
+
+  render(){
+
+    const dailyBookings = this.state.bookings.filter(booking => booking.startTime.includes(this.state.date));
+
+    return(
+      <div className="main-container">
+        <div className="cal-container">
+          <Calendar onChange={this.dateSelect}/>
+          <DailyTimeTable bookings={dailyBookings} date={this.state.da}/>
+        </div>
+        <div className="booking-container">
+          <div className="individual-schedule-container">
+            <BarberSelect barbers={this.state.barbers} onChange={this.handleSelectChange}/>
+            <Schedule
+              date={this.state.date}
+              bookings={this.state.bookingsForDate}
+              barber={this.state.currentBarber}
+              timeSlots={this.state.timeSlots}
+            />
+          </div>
+          <div className="process-booking-container">
+            <BarberBookingSearch
+              barbers = {this.state.barbers}
+              handleSearch = {this.searchAvailableSlots}
+            />
+            <BookingForm
+              bookingCriteria = {this.state.bookingCriteria}
+              services = {this.state.services}
+              customers = {this.state.customers}
+              submitBooking = {this.handleBookingPost}
+              registerCustomer = {this.handCustomerPost}
+            />
+          </div>
+        </div>
+
+      </div>
+    )
+  }
+}
+
+export default BookingContainer;

@@ -12,6 +12,7 @@
     "react-dom": "^16.6.0",
     "react-google-charts": "^3.0.10",
     "react-icons": "^3.2.2",
+    "react-modal": "^3.6.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
     "suggestion-react-input-search": "^1.2.1"

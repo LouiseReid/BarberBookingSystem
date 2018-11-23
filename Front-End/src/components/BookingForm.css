@@ -26,11 +26,11 @@
   margin: 15px 0;
 }
 
-.booking-form-btn {
+.booking-form-btn, .register-form-btn {
   border: 1px solid #a8ccc1;
   border-radius: 30%;
   background-color: #f4f5f7;
-  padding: 8px 8px;
+  padding: 8px;
   font-family: 'Open Sans Condensed', sans-serif;
   font-size: 12px;
   cursor: pointer;
@@ -38,16 +38,65 @@
   transition: all .5s
 }
 
-.booking-form-btn:hover {
+.register-form-btn {
+  margin-top: 5px;
+  padding: 1px;
+  width: fit-content;
+  border-radius: 20%;
+}
+
+.booking-form-btn:hover, .register-form-btn:hover {
   box-shadow: 0 1px #bfd5cd;
   top: 2px;
 }
 
-.booking-form-btn:focus {
+.booking-form-btn:focus, .register-form-btn:focus {
   outline: none;
 }
 
-.booking-form-btn:active {
+.booking-form-btn:active, .register-form-btn:active {
   box-shadow: none;
   top: 6px;
+}
+
+.modal {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 30%;
+  height: fit-content;
+}
+
+.modal:focus {
+  outline: none
+}
+
+.modal-content {
+  background: #f4f5f7;
+  border: 2px solid #a8ccc1;
+}
+
+.modal-close {
+  float: right;
+  background-color: transparent;
+  font-weight: bolder;
+  width: 16px;
+  height: 16px;
+  border: none;
+}
+
+.modal-header {
+  padding-top: 10px;
+  text-align: center;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.register-form input[type='text'] {
+  width: 50%
 }
