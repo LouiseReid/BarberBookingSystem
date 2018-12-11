@@ -50,6 +50,13 @@ public class Booking {
     public Booking() {
     }
 
+    @PrePersist
+    public void endTime(){
+        if(endTime == null){
+            this.calculateEndTime();
+        }
+    }
+
     public Long getId() {
         return Id;
     }

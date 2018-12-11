@@ -15,7 +15,7 @@ class BookingForm extends React.Component {
     }
   }
 
-   handleOnSubmit = (term) => {
+   handleCustomerSubmit = (term) => {
     const splitTerm = term.split(' ')
     const foundCustomer = this.props.customers.find(customer => {
       return customer.firstName === splitTerm[0].charAt(0).toUpperCase() + splitTerm[0].slice(1) && customer.lastName === splitTerm[1].charAt(0).toUpperCase() + splitTerm[1].slice(1) && customer.phoneNo === splitTerm[2];
@@ -32,6 +32,7 @@ class BookingForm extends React.Component {
       "customer": this.state.customer
     }
     this.props.submitBooking(booking)
+    this.forceUpdate()
     localStorage.setItem("currentBarber", this.props.bookingCriteria.barber.name)
     localStorage.setItem("date", this.props.bookingCriteria.date)
   }
@@ -88,7 +89,7 @@ class BookingForm extends React.Component {
               {serviceOptions}
             </select>
             <SuggestionInputSearch
-              onSubmitFunction={this.handleOnSubmit}
+              onSubmitFunction={this.handleCustomerSubmit}
               recentSearches={customersNames}
               placeholder="Search customers..."
               className="customer-search"

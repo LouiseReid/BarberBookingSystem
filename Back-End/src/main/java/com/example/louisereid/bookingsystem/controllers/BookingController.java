@@ -44,25 +44,25 @@ public class BookingController {
     ObjectBuilder objectBuilder;
 
 
-    @RequestMapping(value = "/new", headers = "Accept=application/json", method = RequestMethod.POST)
-    public void post(@RequestBody HashMap<String, String> requestData) {
-        String customerStr = requestData.get("customer");
-        Customer customer = ObjectBuilder.build(customerStr, customerRepository);
-
-        String barberStr = requestData.get("barber");
-        Barber barber = ObjectBuilder.build(barberStr, barberRepository);
-
-        String startTimeStr = requestData.get("startTime");
-        LocalDateTime startTime = LocalDateTime.parse(startTimeStr);
-
-        String serviceStr = requestData.get("service");
-        Service service = ObjectBuilder.build(serviceStr, serviceRepository);
-
-        Booking booking = new Booking(customer, barber, startTime, service);
-        booking.calculateEndTime();
-        bookingRepository.save(booking);
-
-    }
+//    @RequestMapping(value = "/new", headers = "Accept=application/json", method = RequestMethod.POST)
+//    public void post(@RequestBody HashMap<String, String> requestData) {
+//        String customerStr = requestData.get("customer");
+//        Customer customer = ObjectBuilder.build(customerStr, customerRepository);
+//
+//        String barberStr = requestData.get("barber");
+//        Barber barber = ObjectBuilder.build(barberStr, barberRepository);
+//
+//        String startTimeStr = requestData.get("startTime");
+//        LocalDateTime startTime = LocalDateTime.parse(startTimeStr);
+//
+//        String serviceStr = requestData.get("service");
+//        Service service = ObjectBuilder.build(serviceStr, serviceRepository);
+//
+//        Booking booking = new Booking(customer, barber, startTime, service);
+//        booking.calculateEndTime();
+//        bookingRepository.save(booking);
+//
+//    }
 
 
 

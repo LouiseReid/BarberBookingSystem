@@ -92,8 +92,8 @@ class BookingContainer extends React.Component{
 
   handleBookingPost = booking => {
     const request = new Request();
-    request.post('/api/bookings/new', booking).then(() => {
-      window.location = '/'
+    request.post('/api/bookings', booking).then(() => {
+      this.getBookings()
     })
   }
 

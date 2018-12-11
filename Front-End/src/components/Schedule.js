@@ -1,6 +1,5 @@
 import React from 'react';
 import TimeSlot from './TimeSlot';
-import Request from '../helpers/request';
 import moment from 'moment';
 import './Schedule.css';
 
